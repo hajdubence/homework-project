@@ -6,23 +6,21 @@
     <artifactId>homework-template-project</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <description></description>
+    <description>Homework project. This is a sliding puzzle where the goal is to order the numbers from one to nine.</description>
     <developers>
         <developer>
-            <name></name>
-            <email></email>
-            <organization>Faculty of Informatics, University of Debrecen</organization>
-            <organizationUrl>https://inf.unideb.hu/</organizationUrl>
+            <name>Hajdu Bence Ferenc</name>
+            <email>hajdubence2001@gmail.com</email>
         </developer>
     </developers>
     <scm>
-        <developerConnection>scm:git:https://github.com/INBPM0420/homework-template-project.git</developerConnection>
+        <developerConnection>scm:git:https://github.com/hajdubence/homework-project.git</developerConnection>
     </scm>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.build.outputEncoding>UTF-8</project.build.outputEncoding>
         <maven.compiler.release>16</maven.compiler.release>
-        <exec.mainClass>remove.me.RemoveThisClass</exec.mainClass>
+        <exec.mainClass>SlidingPuzzle.Main</exec.mainClass>
         <javafx.version>16</javafx.version>
         <junit.jupiter.version>5.7.1</junit.jupiter.version>
         <jacoco.version>0.8.7</jacoco.version>
