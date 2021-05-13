@@ -1,11 +1,13 @@
 package SlidingPuzzle.modell;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+public record Position(int row, int col) {
 
-@Data
-@AllArgsConstructor
-public class Position {
-    int row;
-    int col;
+    public Position moveTo(Direction direction) {
+        return new Position(row + direction.getRowChange(), col + direction.getColChange());
+    }
+
+    public String toString() {
+        return String.format("(%d,%d)", row, col);
+    }
+
 }

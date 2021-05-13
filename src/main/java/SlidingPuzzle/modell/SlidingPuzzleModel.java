@@ -3,7 +3,9 @@ package SlidingPuzzle.modell;
 import javafx.beans.property.ObjectProperty;
 
 import java.util.ArrayList;
+import java.util.EnumSet;
 import java.util.List;
+import java.util.Set;
 
 public class SlidingPuzzleModel {
 
@@ -21,35 +23,72 @@ public class SlidingPuzzleModel {
         table.add(new Square(new Position(1,9),1));
     }
 
+
+    public ObjectProperty<Integer> numberProperty(Position position) {
+        for (int i = 0; i < table.size(); i++) {
+            if (table.get(i).getPosition().equals(position)) {
+                return table.get(i).getNumberProperty();
+            }
+        }
+        throw new IllegalArgumentException();
+    }
+
     public boolean isSquare(Position position) {
         for (int i = 0; i < table.size(); i++) {
-            if(table.get(i).position.equals(position)) {
+            if(table.get(i).getPosition().equals(position)) {
                 return true;
             }
         }
         return false;
     }
 
-    public ObjectProperty<Integer> numberProperty(Position position) {
-        for (int i = 0; i < table.size(); i++) {
-            if (table.get(i).position.equals(position)) {
-                return table.get(i).number;
-            }
-        }
-        throw new IllegalArgumentException();
-    }
-
     public boolean isEmpty(Position position){
         for (int i = 0; i < table.size(); i++) {
-            if(table.get(i).position.equals(position)) {
-                if (table.get(i).number.get() == 0) {
-                    return true;
-                } else {
-                    return false;
-                }
+            if(table.get(i).getPosition().equals(position)) {
+                return table.get(i).getNumber() == 0;
             }
         }
         return false;
+    }
+
+    public void move(Position position, Direction direction) {
+        int from = -1, to = -1;
+
+        for (int i = 0; i < table.size(); i++) {
+            if(table.get(i).getPosition().equals(position)) {
+                from = i;
+            }
+            if (table.get(i).getPosition().equals(position.moveTo(direction))) {
+                to = i;
+            }
+        }
+
+        if (from==-1 || to == -1 || table.get(to).getNumber()!=0) {
+            throw new IllegalArgumentException();
+        } else {
+            table.get(to).getNumberProperty().set(table.get(from).getNumber());
+            table.get(from).getNumberProperty().set(0);
+        }
+    }
+
+    public Set<Direction> getValidMoves(Position position) {
+        EnumSet<Direction> validMoves = EnumSet.noneOf(Direction.class);
+        for (var direction : Direction.values()) {
+            if (isEmpty(position.moveTo(direction))) {
+                validMoves.add(direction);
+            }
+        }
+        return validMoves;
+    }
+
+    public List<Position> canBeMoved() {
+        List<Position> movable = new ArrayList<Position>();
+        for (int i = 0; i < table.size(); i++) {
+            if (table.get(i).getNumber()!=0 && !getValidMoves(table.get(i).getPosition()).isEmpty()) {
+                movable.add(table.get(i).getPosition());
+            }
+        }
+        return movable;
     }
 
 }
