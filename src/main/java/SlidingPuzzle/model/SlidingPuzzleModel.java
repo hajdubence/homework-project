@@ -58,6 +58,15 @@ public class SlidingPuzzleModel {
         return false;
     }
 
+    public boolean isEndState() {
+        for (int i = 0; i < 9; i++) {
+            if (getNumberProperty(new Position(1,i)).get().intValue() != i+1) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void move(Position position, Direction direction) {
         int from = -1, to = -1;
 

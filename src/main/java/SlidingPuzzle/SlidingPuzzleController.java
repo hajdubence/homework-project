@@ -1,7 +1,12 @@
 package SlidingPuzzle;
 
 import javafx.beans.binding.ObjectBinding;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -12,8 +17,10 @@ import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 import org.tinylog.Logger;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -164,6 +171,11 @@ public class SlidingPuzzleController {
         var position = new Position(row, col);
         Logger.debug("Click on square {}", position);
         handleClickOnSquare(position);
+        try {
+            checkGameEnd(event);
+        } catch (IOException e) {
+            Logger.error(e);
+        }
     }
 
     private void handleClickOnSquare(Position position) {
@@ -248,4 +260,12 @@ public class SlidingPuzzleController {
         throw new AssertionError();
     }
 
+    private void checkGameEnd(MouseEvent event) throws IOException {
+        if (model.isEndState()) {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/ending.fxml"));
+            stage.setScene(new Scene(root));
+            stage.show();
+        }
+    }
 }

@@ -8,13 +8,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class SlidingPuzzleApplication extends Application {
+public class MenuApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/ui.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/menu.fxml"));
         stage.setTitle("Sliding Puzzle");
-        Scene scene = new Scene(root);
-        stage.setScene(scene);
+        stage.setScene(new Scene(root));
         stage.setResizable(false);
         stage.show();
     }
