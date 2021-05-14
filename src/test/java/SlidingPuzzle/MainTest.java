@@ -1,14 +1,12 @@
-package remove.me;
+package SlidingPuzzle;
 
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class RemoveThisTest {
+class MainTest {
 
     @Test
-    void testMethod() {
-        assertEquals(2, 1 + 1);
+    void main() {
     }
-
 }

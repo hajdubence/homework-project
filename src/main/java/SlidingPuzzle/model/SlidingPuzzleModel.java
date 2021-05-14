@@ -1,6 +1,7 @@
-package SlidingPuzzle.modell;
+package SlidingPuzzle.model;
 
 import javafx.beans.property.ObjectProperty;
+import javafx.beans.property.SimpleObjectProperty;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -10,6 +11,8 @@ import java.util.Set;
 public class SlidingPuzzleModel {
 
     private List<Square> table = new ArrayList<Square>();
+
+    private final ObjectProperty<Integer> moves = new SimpleObjectProperty<>();
 
     public SlidingPuzzleModel() {
         table.add(new Square(new Position(0,3),0));
@@ -21,16 +24,20 @@ public class SlidingPuzzleModel {
             table.add(new Square(new Position(1,i-1),i));
         }
         table.add(new Square(new Position(1,9),1));
+        moves.set(0);
     }
 
 
-    public ObjectProperty<Integer> numberProperty(Position position) {
+    public ObjectProperty<Integer> getNumberProperty(Position position) {
         for (int i = 0; i < table.size(); i++) {
             if (table.get(i).getPosition().equals(position)) {
                 return table.get(i).getNumberProperty();
             }
         }
         throw new IllegalArgumentException();
+    }
+    public ObjectProperty<Integer> getScoreProperty() {
+        return moves;
     }
 
     public boolean isSquare(Position position) {
@@ -68,6 +75,7 @@ public class SlidingPuzzleModel {
         } else {
             table.get(to).getNumberProperty().set(table.get(from).getNumber());
             table.get(from).getNumberProperty().set(0);
+            moves.set(moves.get() + 1);
         }
     }
 

@@ -4,9 +4,10 @@ import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import SlidingPuzzle.modell.*;
+import SlidingPuzzle.model.*;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
@@ -42,6 +43,9 @@ public class SlidingPuzzleController {
     private GridPane board;
 
     @FXML
+    private StackPane score;
+
+    @FXML
     private void initialize() {
         for (int i = 0; i < board.getRowCount(); i++) {
             for (int j = 0; j < board.getColumnCount(); j++) {
@@ -58,6 +62,8 @@ public class SlidingPuzzleController {
                 }
             }
         }
+        createCounter();
+
         setSelectablePositions();
         showSelectablePositions();
     }
@@ -74,11 +80,11 @@ public class SlidingPuzzleController {
         circle.fillProperty().bind(
                 new ObjectBinding<Paint>() {
                     {
-                        super.bind(model.numberProperty(new Position(col, row)));
+                        super.bind(model.getNumberProperty(new Position(col, row)));
                     }
                     @Override
                     protected Paint computeValue() {
-                        return switch (model.numberProperty(new Position(col, row)).get()) {
+                        return switch (model.getNumberProperty(new Position(col, row)).get()) {
                             case 0 -> Color.TRANSPARENT;
                             default -> Color.web("0x00b000");
                         };
@@ -88,11 +94,11 @@ public class SlidingPuzzleController {
         circle.strokeProperty().bind(
                 new ObjectBinding<Paint>() {
                     {
-                        super.bind(model.numberProperty(new Position(col, row)));
+                        super.bind(model.getNumberProperty(new Position(col, row)));
                     }
                     @Override
                     protected Paint computeValue() {
-                        return switch (model.numberProperty(new Position(col, row)).get()) {
+                        return switch (model.getNumberProperty(new Position(col, row)).get()) {
                             case 0 -> Color.TRANSPARENT;
                             default -> Color.BLACK;
                         };
@@ -108,11 +114,11 @@ public class SlidingPuzzleController {
         text.fillProperty().bind(
                 new ObjectBinding<Paint>() {
                     {
-                        super.bind(model.numberProperty(new Position(col, row)));
+                        super.bind(model.getNumberProperty(new Position(col, row)));
                     }
                     @Override
                     protected Paint computeValue() {
-                        return switch (model.numberProperty(new Position(col, row)).get()) {
+                        return switch (model.getNumberProperty(new Position(col, row)).get()) {
                             case 0 -> Color.TRANSPARENT;
                             default -> Color.WHITE;
                         };
@@ -122,15 +128,32 @@ public class SlidingPuzzleController {
         text.textProperty().bind(
                 new ObjectBinding<String>() {
                     {
-                        super.bind(model.numberProperty(new Position(col, row)));
+                        super.bind(model.getNumberProperty(new Position(col, row)));
                     }
                     @Override
                     protected String computeValue() {
-                        return model.numberProperty(new Position(col, row)).get().toString();
+                        return model.getNumberProperty(new Position(col, row)).get().toString();
                     }
                 }
         );
         return text;
+    }
+
+    private void createCounter() {
+        var text = new Text();
+        text.setFont(Font.font("Serif",24));
+        text.textProperty().bind(
+                new ObjectBinding<String>() {
+                    {
+                        super.bind(model.getScoreProperty());
+                    }
+                    @Override
+                    protected String computeValue() {
+                        return "Moves: " + model.getScoreProperty().get().toString();
+                    }
+                }
+        );
+        score.getChildren().add(text);
     }
 
     @FXML

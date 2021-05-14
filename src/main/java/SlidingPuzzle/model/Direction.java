@@ -1,4 +1,4 @@
-package SlidingPuzzle.modell;
+package SlidingPuzzle.model;
 
 public enum Direction {
 

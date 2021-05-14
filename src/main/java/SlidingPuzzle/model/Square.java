@@ -1,4 +1,4 @@
-package SlidingPuzzle.modell;
+package SlidingPuzzle.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
