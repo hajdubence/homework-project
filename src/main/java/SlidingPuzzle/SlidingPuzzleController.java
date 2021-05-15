@@ -1,7 +1,6 @@
 package SlidingPuzzle;
 
 import javafx.beans.binding.ObjectBinding;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -9,7 +8,6 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import SlidingPuzzle.model.*;
@@ -33,6 +31,8 @@ public class SlidingPuzzleController {
     private List<Position> selectablePositions = new ArrayList<>();
 
     private Position selected;
+
+    private String name;
 
     private enum SelectionPhase {
         SELECT_FROM,
@@ -267,5 +267,9 @@ public class SlidingPuzzleController {
             stage.setScene(new Scene(root));
             stage.show();
         }
+    }
+    public void setName(String name) {
+        Logger.info("Setting name to {}", name);
+        this.name = name;
     }
 }

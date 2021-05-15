@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 
 public class MenuController {
     @FXML
-    private void switchScene(ActionEvent event) throws IOException {
+    private void start(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         Parent root = FXMLLoader.load(getClass().getResource("/puzzle.fxml"));
         stage.setScene(new Scene(root));
