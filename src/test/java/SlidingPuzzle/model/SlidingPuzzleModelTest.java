@@ -32,6 +32,11 @@ class SlidingPuzzleModelTest {
     }
 
     @Test
+    void isEndSState() {
+        assertFalse(model.isEndState());
+    }
+
+    @Test
     void move() {
         assertThrows(IllegalArgumentException.class, () -> model.move(new Position(0 , 0) , Direction.DOWN));
         assertThrows(IllegalArgumentException.class, () -> model.move(new Position(0 , 0) , Direction.UP));
@@ -42,11 +47,8 @@ class SlidingPuzzleModelTest {
 
     @Test
     void getValidMoves() {
-        EnumSet<Direction> expected = EnumSet.of(Direction.LEFT);
-        assertEquals(model.getValidMoves(new Position(1 , 1)), expected);
-
-        expected = EnumSet.noneOf(Direction.class);
-        assertEquals(model.getValidMoves(new Position(1 , 2)), expected);
+        assertEquals(EnumSet.of(Direction.LEFT), model.getValidMoves(new Position(1 , 1)));
+        assertEquals(EnumSet.noneOf(Direction.class), model.getValidMoves(new Position(1 , 2)));
     }
 
     @Test
@@ -56,6 +58,6 @@ class SlidingPuzzleModelTest {
         expected.add(new Position(1,3));
         expected.add(new Position(1,5));
         expected.add(new Position(1,7));
-        assertEquals(model.canBeMoved(), expected);
+        assertEquals(expected, model.canBeMoved());
     }
 }
