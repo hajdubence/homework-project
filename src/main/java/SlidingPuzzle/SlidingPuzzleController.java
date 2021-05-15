@@ -18,9 +18,16 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class SlidingPuzzleController {
 
@@ -33,6 +40,8 @@ public class SlidingPuzzleController {
     private Position selected;
 
     private String name;
+
+    private ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
 
     private enum SelectionPhase {
         SELECT_FROM,
@@ -262,6 +271,13 @@ public class SlidingPuzzleController {
 
     private void checkGameEnd(MouseEvent event) throws IOException {
         if (model.isEndState()) {
+
+            Results results = objectMapper.readValue(new FileReader("results.json"), Results.class);
+            results.getList().add(new Result(name,model.getMoves()));
+            FileWriter writer = new FileWriter("results.json");
+            writer.write(objectMapper.writeValueAsString(results));
+            writer.close();
+
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             Parent root = FXMLLoader.load(getClass().getResource("/ending.fxml"));
             stage.setScene(new Scene(root));

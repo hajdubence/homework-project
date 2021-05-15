@@ -49,6 +49,10 @@ public class SlidingPuzzleModel {
         return false;
     }
 
+    public int getMoves() {
+        return moves.get().intValue();
+    }
+
     public boolean isEmpty(Position position){
         for (int i = 0; i < table.size(); i++) {
             if(table.get(i).getPosition().equals(position)) {
