@@ -6,7 +6,7 @@
     <artifactId>homework-template-project</artifactId>
     <version>1.0</version>
     <packaging>jar</packaging>
-    <description>Homework project. This is a sliding puzzle where the goal is to order the numbers from one to nine.</description>
+    <description>Puzzle game implemented in JavaFX based on the Model-View-Controller (MVC) architectural pattern.</description>
     <developers>
         <developer>
             <name>Hajdu Bence Ferenc</name>

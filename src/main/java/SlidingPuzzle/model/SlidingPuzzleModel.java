@@ -2,6 +2,7 @@ package SlidingPuzzle.model;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import org.tinylog.Logger;
 
 import java.util.ArrayList;
 import java.util.EnumSet;
@@ -134,6 +135,7 @@ public class SlidingPuzzleModel {
         if (from==-1 || to == -1 || board.get(to).getNumber()!=0) {
             throw new IllegalArgumentException();
         } else {
+            Logger.debug("Moving from {} to {}", board.get(from).getPosition(), board.get(to).getPosition());
             board.get(to).getNumberProperty().set(board.get(from).getNumber());
             board.get(from).getNumberProperty().set(0);
             moves.set(moves.get() + 1);

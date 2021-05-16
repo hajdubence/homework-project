@@ -46,19 +46,21 @@ public class MenuController {
             reader.close();
         } catch (FileNotFoundException e) {
             try {
+                Logger.debug("Creating results file.");
                 FileWriter writer = new FileWriter("results.json");
                 writer.write(objectMapper.writeValueAsString(new Results()));
                 writer.close();
             } catch (IOException e2) {
-                Logger.error("Can't create results.json");
+                Logger.error("Can't create results file.");
             }
         }
         Results results = objectMapper.readValue(new FileReader("results.json"), Results.class);
         Collections.sort(results.getList());
         for (int i = 0; i < 10 && i < results.getList().size() ; i++) {
             Result result = results.getList().get(i);
-            Text asd = new Text(result.getName() + " (" + result.getMoves() + ")");
-            leaderboard.add(asd, 1, i);
+            Text record = new Text(result.getName() + " (" + result.getMoves() + ")");
+            leaderboard.add(record, 1, i);
+            Logger.debug("Added {} to the leaderboard.", record.getText());
         }
     }
 

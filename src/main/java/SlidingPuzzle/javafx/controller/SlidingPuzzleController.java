@@ -63,6 +63,7 @@ public class SlidingPuzzleController {
 
     @FXML
     private void initialize() {
+        Logger.info("Creating board.");
         for (int i = 0; i < board.getRowCount(); i++) {
             for (int j = 0; j < board.getColumnCount(); j++) {
                 if (model.isSquare(new Position(i,j))) {
@@ -180,11 +181,7 @@ public class SlidingPuzzleController {
         var position = new Position(row, col);
         Logger.debug("Click on square {}", position);
         handleClickOnSquare(position);
-        try {
-            checkGameEnd(event);
-        } catch (IOException e) {
-            Logger.error(e);
-        }
+        checkGameEnd(event);
     }
 
     private void handleClickOnSquare(Position position) {
@@ -215,6 +212,7 @@ public class SlidingPuzzleController {
     }
 
     private void selectPosition(Position position) {
+        Logger.debug("Selecting {} position", position);
         selected = position;
         showSelectedPosition();
     }
@@ -235,6 +233,7 @@ public class SlidingPuzzleController {
     }
 
     private void setSelectablePositions() {
+        Logger.debug("Setting selectable positions");
         selectablePositions.clear();
         switch (selectionPhase) {
             case SELECT_FROM -> selectablePositions.addAll(model.canBeMoved());
@@ -269,21 +268,35 @@ public class SlidingPuzzleController {
         throw new AssertionError();
     }
 
-    private void checkGameEnd(MouseEvent event) throws IOException {
+    private void checkGameEnd(MouseEvent event) {
         if (model.isEndState()) {
-
-            Results results = objectMapper.readValue(new FileReader("results.json"), Results.class);
-            results.getList().add(new Result(name,model.getMoves()));
-            FileWriter writer = new FileWriter("results.json");
-            writer.write(objectMapper.writeValueAsString(results));
-            writer.close();
+            Logger.info("The puzzle is solved.");
+            try {
+                saveResult();
+            } catch (IOException e) {
+                Logger.error("An error occurred while savaging the result");
+            }
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/fxml/ending.fxml"));
+            Parent root = null;
+            try {
+                root = FXMLLoader.load(getClass().getResource("/fxml/ending.fxml"));
+            } catch (IOException e) {
+                Logger.error(e);
+            }
             stage.setScene(new Scene(root));
             stage.show();
         }
     }
+
+    private void saveResult() throws IOException {
+        Results results = objectMapper.readValue(new FileReader("results.json"), Results.class);
+        results.getList().add(new Result(name,model.getMoves()));
+        FileWriter writer = new FileWriter("results.json");
+        writer.write(objectMapper.writeValueAsString(results));
+        writer.close();
+    }
+
     public void setName(String name) {
         Logger.info("Setting name to {}", name);
         this.name = name;
