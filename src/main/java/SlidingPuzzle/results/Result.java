@@ -1,9 +1,13 @@
-package SlidingPuzzle;
+package SlidingPuzzle.results;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
+
+/**
+ *  This class holds the result of one game.
+ */
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

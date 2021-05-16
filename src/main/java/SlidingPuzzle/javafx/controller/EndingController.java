@@ -1,4 +1,4 @@
-package SlidingPuzzle;
+package SlidingPuzzle.javafx.controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
@@ -16,7 +16,7 @@ public class EndingController {
     @FXML
     private void backToMenu(ActionEvent event) throws IOException {
         Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-        Parent root = FXMLLoader.load(getClass().getResource("/menu.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/fxml/menu.fxml"));
         stage.setScene(new Scene(root));
         stage.show();
     }

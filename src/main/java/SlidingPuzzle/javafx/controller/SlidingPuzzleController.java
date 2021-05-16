@@ -1,5 +1,7 @@
-package SlidingPuzzle;
+package SlidingPuzzle.javafx.controller;
 
+import SlidingPuzzle.results.Result;
+import SlidingPuzzle.results.Results;
 import javafx.beans.binding.ObjectBinding;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,12 +20,10 @@ import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import org.tinylog.Logger;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -279,7 +279,7 @@ public class SlidingPuzzleController {
             writer.close();
 
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            Parent root = FXMLLoader.load(getClass().getResource("/ending.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("/fxml/ending.fxml"));
             stage.setScene(new Scene(root));
             stage.show();
         }

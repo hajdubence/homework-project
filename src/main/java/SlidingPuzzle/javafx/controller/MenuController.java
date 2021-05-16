@@ -1,4 +1,4 @@
-package SlidingPuzzle;
+package SlidingPuzzle.javafx.controller;
 
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -6,7 +6,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Collections;
 
-import SlidingPuzzle.model.Position;
+import SlidingPuzzle.results.Result;
+import SlidingPuzzle.results.Results;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import javafx.event.ActionEvent;
@@ -36,6 +37,10 @@ public class MenuController {
 
     @FXML
     private void initialize() throws IOException{
+        createLeaderboard();
+    }
+
+    private void createLeaderboard() throws IOException {
         try {
             FileReader reader = new FileReader("results.json");
             reader.close();
@@ -49,13 +54,12 @@ public class MenuController {
             }
         }
         Results results = objectMapper.readValue(new FileReader("results.json"), Results.class);
-        Collections.sort(results.getList(), Collections.reverseOrder());
+        Collections.sort(results.getList());
         for (int i = 0; i < 10 && i < results.getList().size() ; i++) {
             Result result = results.getList().get(i);
             Text asd = new Text(result.getName() + " (" + result.getMoves() + ")");
             leaderboard.add(asd, 1, i);
         }
-
     }
 
     @FXML
@@ -65,7 +69,7 @@ public class MenuController {
             warning.setVisible(true);
         } else {
             Logger.info("Name entered: {}", nameField.getText());
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/puzzle.fxml"));
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/fxml/puzzle.fxml"));
             Parent root = fxmlLoader.load();
             SlidingPuzzleController controller = fxmlLoader.<SlidingPuzzleController>getController();
             controller.setName(nameField.getText());

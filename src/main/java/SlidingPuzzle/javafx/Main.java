@@ -1,4 +1,4 @@
-package SlidingPuzzle;
+package SlidingPuzzle.javafx;
 
 import javafx.application.Application;
 
